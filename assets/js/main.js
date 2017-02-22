@@ -19,12 +19,10 @@ function geoError(err) {
 };
 
 $(function () {
-  console.log('Page loaded')
   if (navigator.geolocation) { //attempt to get the geolocation of the user
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
   }
-  $('#showMore').click(function(){
-    console.log('clicked', maxHits);
+  $('#showMore').click(function(){ //incrementally add more search results to the page
     maxHits += 5;
     showMoreHelper.setQueryParameter('hitsPerPage', maxHits).search();
   })
@@ -38,7 +36,6 @@ instantsearch.widgets.geoLocate = function geoLocate(container) {
       return {}
     },
     init: function(params) {
-      console.log('init')
       if (myLat && myLong) {
         params.helper.setQueryParameter('aroundLatLng', myLat, myLong);
       } else {
@@ -62,7 +59,6 @@ instantsearch.widgets.showMore = function showMore(container) {
       }
     },
     init: function(params) {
-      console.log('showMore init')
       showMoreHelper = params.helper;
     },
     render: function(params) {
@@ -121,12 +117,10 @@ search.addWidget(
       item: hitTemplate
     },
     transformData: function(hit) {
-      console.log(hit)
       hit.stars = [];
       for (var i = 1; i <= 5; ++i) {
         hit.stars.push(i <= hit.stars_count);
       }
-      console.log('stars', hit.stars)
       return hit;
     }
   })
