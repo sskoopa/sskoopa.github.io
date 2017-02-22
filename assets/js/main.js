@@ -1,35 +1,50 @@
-var options = {
+var myLat, myLong; //will store users latitude and longitude
+var maxHits = 3;
+var showMoreHelper;
+
+var geoOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0
 };
 
-var myLat, myLong;
-
-function success(pos) {
+function geoSuccess(pos) {
   var crd = pos.coords;
   myLat = crd.latitude;
   myLong = crd.longitude;
 };
 
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
+function geoError(err) {
+  //do nothing, we are just not setting latitude and longitude
 };
 
+$(function () {
+  console.log('Page loaded')
+  if (navigator.geolocation) { //attempt to get the geolocation of the user
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+  }
+  $('#showMore').click(function(){
+    console.log('clicked', maxHits);
+    maxHits += 5;
+    showMoreHelper.setQueryParameter('hitsPerPage', maxHits).search();
+  })
+})
+
+//custom widget to add geolocation to the algolia instantsearch widgets
 instantsearch.widgets.geoLocate = function geoLocate(container) {
 
   return {
     getConfiguration: function(currentParams) {
-      return {
-        hitsPerPage: 1
-      }
+      return {}
     },
     init: function(params) {
+      console.log('init')
       if (myLat && myLong) {
-        params.helper.setQueryParameter('aroundLatLng', myLat, myLong).search();
+        params.helper.setQueryParameter('aroundLatLng', myLat, myLong);
       } else {
-        params.helper.setQueryParameter('aroundLatLngViaIP', true).search();
+        params.helper.setQueryParameter('aroundLatLngViaIP', true);
       }
+      params.helper.setQueryParameter('aroundPrecision', 300)
     },
     render: function(params) {
       //do nothing
@@ -37,18 +52,30 @@ instantsearch.widgets.geoLocate = function geoLocate(container) {
   }
 }
 
-$(function () {
-  console.log('Page loaded')
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(success, error, options);
+//custom widget to add geolocation to the algolia instantsearch widgets
+instantsearch.widgets.showMore = function showMore(container) {
+
+  return {
+    getConfiguration: function(currentParams) {
+      return {
+        hitsPerPage: maxHits
+      }
+    },
+    init: function(params) {
+      console.log('showMore init')
+      showMoreHelper = params.helper;
+    },
+    render: function(params) {
+      //do nothing
+    }
   }
-})
+}
 
 
 var search = instantsearch({
-  appId: 'G25069ZST3',
-  apiKey: 'b529eded62b3d1bfe8e02096d7328744',
-  indexName: 'restaurants',
+  appId: 'G25069ZST3',  //replace with your appid
+  apiKey: 'b529eded62b3d1bfe8e02096d7328744', //replace with your apiKey (search only)
+  indexName: 'restaurants', //replace with your index
   urlSync: {}
 });
 
@@ -75,9 +102,11 @@ search.addWidget(
 
 var hitTemplate =
   '<div class="hit clear"><div><img class="media-left" src="{{image_url}}" />' +
-    '<p class="title">{{name}}</p>' +
-    '<p><span class="orange">{{stars_count}}</span><span class="gray">({{reviews_count}} reviews)</span></p>' +
-    '<p class="gray">{{food_type}} | {{neighborhood}} | {{price_range}}</p>' +
+    '<div class="title">{{name}}</div>' +
+    '<div><span class="orange">{{stars_count}}</span>' + 
+    '<span class="star {{ratingclass}}"></span>' + 
+    '<span class="gray">({{reviews_count}} reviews)</span></div>' +
+    '<div class="gray">{{food_type}} | {{neighborhood}} | {{price_range}}</div>' +
   '</div></div>';
 
 var noResultsTemplate =
@@ -86,12 +115,13 @@ var noResultsTemplate =
 search.addWidget(
   instantsearch.widgets.hits({
     container: '#hits',
-    hitsPerPage: 10,
+    hitsPerPage: 3,
     templates: {
       empty: noResultsTemplate,
       item: hitTemplate
     },
     transformData: function(hit) {
+      console.log(hit)
       hit.stars = [];
       for (var i = 1; i <= 5; ++i) {
         hit.stars.push(i <= hit.stars_count);
@@ -144,8 +174,12 @@ search.addWidget(
   })
 );
 
+//add geolocation to the search, remove this if you want plain search
 search.addWidget(
   instantsearch.widgets.geoLocate()
+);
+search.addWidget(
+  instantsearch.widgets.showMore()
 );
 
 search.start();

@@ -13,6 +13,7 @@ csv.fromPath('./resources/dataset/restaurants_info.csv', //parse the csv file
    var id = data.objectID + '' //convert the objectID to a string if not already
    var rating = new Number(data.stars_count)
    data.rating = rating
+   data.ratingclass = 'star' + Math.floor(rating)
    var reviews = new Number(data.reviews_count)
    data.reviews_count = reviews
    info[id] = data
