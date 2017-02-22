@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cool places to eat!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet"> 
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+  </head>
+  <body>
+  <header>
+    <input type="text" class="form-control" id="q" placeholder="Search for Restaurants by Name, Cuisine, Location"/>
+  </header>
+  <main>
+    <article class='content'>
+      <div id="stats"></div>
+      <div id="hits"></div>
+    </article>
+    <nav class="sidebar">
+      <div class='facet'>Cuisine/Food Type</div>
+      <div id="cuisine"></div>
+      <div class='facet'>Rating</div>
+      <div id="rating"></div>
+      <div class='facet'>Payment Options</div>
+      <div id="payment"></div>
+    </nav>
+  </main>
+  <script src="https:////ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  </body>
+</html>

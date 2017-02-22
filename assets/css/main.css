@@ -1,0 +1,163 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  background: url('../img/background.png') repeat;
+  padding: 50px 100px;
+}
+
+header {
+  flex: none;
+  padding: 22px 25px; 
+  background-color: #3e698d;
+  margin: 0px;
+}
+
+header input {
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  width: 95%;
+  padding-left: 13px;
+  font-size: 15px;
+  line-height: 40px;
+}
+
+header input::-webkit-input-placeholder {
+  color: #b8b8b8;
+}
+
+main {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background-color: #fff;
+} 
+
+article {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  padding-left: 32px;
+}
+
+nav {
+  order: -1;
+  padding: 1em;
+  border-right: 1px solid #e9e9e9;
+}
+
+.facet {
+  padding: .5em 0;
+}
+
+#hits {
+  flex: 1 0 auto;
+}
+
+#stats {
+  flex: 1;
+  padding-top: 1.5em;
+}
+
+#rating {
+  padding-left: 12px;
+}
+
+#cuisine input, #payment input {
+  display: none;
+}
+
+.nav-list {
+  font-size: .9em;
+  font-weight: 200;
+  color: #333;
+  padding-left: 1em;
+}
+
+.nav-list .ais-refinement-list--item {
+  margin-bottom: .3em;
+}
+
+.pull-right {
+  float: right;
+}
+
+.active, .ais-star-rating--item__active a {
+  background-color: #5b98c3;
+  color: #e9e9e9;
+}
+
+.smaller {
+  font-size: 12px;
+  color: #333;
+}
+
+.gray {
+  color: #707070;
+}
+
+.small {
+  font-size: 13px;
+  color: #000;  
+}
+
+.orange {
+  color: #ffab66;
+}
+
+.media-left {
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.hit {
+  height: 6.5em;
+}
+
+.hit img {
+  height: 6em;
+  width: 6em;
+  border-radius: 4px;
+  margin-right: 1em;
+}
+
+.hit .title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ais-star-rating--link, .ais-star-rating--link:hover {
+  text-decoration: none;
+}
+
+.ais-star-rating--count {
+  display: none;
+}
+
+.ais-star-rating--star::before {
+  content: '\2605';
+  color: #FBAE00;
+  width: 64px;
+  height: 64px;
+}
+.ais-star-rating--star__empty::before {
+  content: '\2606';
+  color: #FBAE00;
+  width: 64px;
+  height: 64px;
+}
+
+@media (min-width: 768px) {
+  main {
+    flex-direction: row;
+  }
+  article {
+    margin: 0;
+  }
+  nav {
+    flex: 0 0 184px;
+  }
+}
