@@ -12,11 +12,26 @@ csv.fromPath('./resources/dataset/restaurants_info.csv', //parse the csv file
  .on('data', (data) => {
    var id = data.objectID + '' //convert the objectID to a string if not already
    var rating = new Number(data.stars_count)
-   data.stars_count = rating
+   data.rating = rating
+   var reviews = new Number(data.reviews_count)
+   data.reviews_count = reviews
    info[id] = data
  }).on('end', () => {
   records.forEach((record) => { //merge each csv item into the restaurant list
     var recid = record.objectID + '' //convert the objectID to a string if not already
+   var pay = []
+   record.payment_options.forEach((method) => {
+     if (method === 'Visa') {
+       pay.push(method)
+     } else if (method === 'MasterCard') {
+       pay.push(method)
+     } else if (method === 'AMEX') {
+       pay.push(method)
+     } else if (method === 'Discover') {
+       pay.push(method)
+     }
+   })
+   record.payment_options = pay;
     if (info[recid]) {
       var temp = {}
       merge(temp, record, info[recid])

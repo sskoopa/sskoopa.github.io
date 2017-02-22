@@ -107,7 +107,7 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.starRating({
     container: '#rating',
-    attributeName: 'stars_count',
+    attributeName: 'rating',
     max: 5,
     labels: {
       andUp: ''
